@@ -2,13 +2,15 @@ use std::array::TryFromSliceError;
 
 use crate::{
     binder::Eval,
-    bls::BlsError,
     builtin::DefaultFunction,
     constant::{Constant, Integer},
     data::PlutusData,
     term::Term,
     typ::Type,
 };
+
+#[cfg(feature = "blst")]
+use crate::bls::BlsError;
 
 use super::{value::Value, ExBudget};
 
@@ -73,12 +75,15 @@ pub enum RuntimeError<'a> {
     MkConsTypeMismatch(&'a Constant<'a>),
     #[error("Byte string cons not a byte")]
     ByteStringConsNotAByte(&'a Integer),
+    #[cfg(feature = "secp256k1")]
     #[error(transparent)]
     Secp256k1(#[from] secp256k1::Error),
     #[error(transparent)]
     DecodeUtf8(#[from] std::str::Utf8Error),
+    #[cfg(feature = "blst")]
     #[error(transparent)]
     Bls(#[from] BlsError),
+    #[cfg(feature = "blst")]
     #[error("Bls Error: Hash to curve dst too big")]
     HashToCurveDstTooBig,
     #[error(
@@ -201,6 +206,7 @@ where
         MachineError::runtime(RuntimeError::ByteStringConsNotAByte(byte))
     }
 
+    #[cfg(feature = "secp256k1")]
     pub fn secp256k1(error: secp256k1::Error) -> Self {
         MachineError::runtime(RuntimeError::Secp256k1(error))
     }
@@ -209,10 +215,12 @@ where
         MachineError::runtime(RuntimeError::DecodeUtf8(error))
     }
 
+    #[cfg(feature = "blst")]
     pub fn bls(error: BlsError) -> Self {
         MachineError::runtime(RuntimeError::Bls(error))
     }
 
+    #[cfg(feature = "blst")]
     pub fn hash_to_curve_dst_too_big() -> Self {
         MachineError::runtime(RuntimeError::HashToCurveDstTooBig)
     }

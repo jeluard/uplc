@@ -4,13 +4,14 @@ use std::array::TryFromSliceError;
 use crate::{
     arena::Arena,
     binder::Eval,
-    bls::{Compressable, SCALAR_PERIOD},
     builtin::DefaultFunction,
     constant::{self, Constant, Integer},
     data::PlutusData,
     machine::cost_model::builtin_costs::BuiltinCostModel,
     typ::Type,
 };
+#[cfg(feature = "blst")]
+use crate::bls::{Compressable, SCALAR_PERIOD};
 use bumpalo::collections::{CollectIn, String as BumpString, Vec as BumpVec};
 use num::{Integer as NumInteger, Signed, Zero};
 
@@ -878,6 +879,7 @@ impl<'a, B: BuiltinCostModel> Machine<'a, B> {
 
                 Ok(value)
             }
+            #[cfg(feature = "secp256k1")]
             DefaultFunction::VerifyEcdsaSecp256k1Signature => {
                 use secp256k1::{ecdsa::Signature, Message, PublicKey, Secp256k1};
 
@@ -919,6 +921,7 @@ impl<'a, B: BuiltinCostModel> Machine<'a, B> {
 
                 Ok(value)
             }
+            #[cfg(feature = "secp256k1")]
             DefaultFunction::VerifySchnorrSecp256k1Signature => {
                 use secp256k1::{schnorr::Signature, Secp256k1, XOnlyPublicKey};
 
@@ -1719,6 +1722,7 @@ impl<'a, B: BuiltinCostModel> Machine<'a, B> {
 
                 Ok(value)
             }
+            #[cfg(feature = "blst")]
             DefaultFunction::Bls12_381_G1_Add => {
                 let arg1 = runtime.args[0].unwrap_bls12_381_g1_element()?;
                 let arg2 = runtime.args[1].unwrap_bls12_381_g1_element()?;
@@ -1751,6 +1755,7 @@ impl<'a, B: BuiltinCostModel> Machine<'a, B> {
 
                 Ok(value)
             }
+            #[cfg(feature = "blst")]
             DefaultFunction::Bls12_381_G1_Neg => {
                 let arg1 = runtime.args[0].unwrap_bls12_381_g1_element()?;
 
@@ -1780,6 +1785,7 @@ impl<'a, B: BuiltinCostModel> Machine<'a, B> {
 
                 Ok(value)
             }
+            #[cfg(feature = "blst")]
             DefaultFunction::Bls12_381_G1_ScalarMul => {
                 let arg1 = runtime.args[0].unwrap_integer()?;
                 let arg2 = runtime.args[1].unwrap_bls12_381_g1_element()?;
@@ -1835,6 +1841,7 @@ impl<'a, B: BuiltinCostModel> Machine<'a, B> {
 
                 Ok(value)
             }
+            #[cfg(feature = "blst")]
             DefaultFunction::Bls12_381_G1_Equal => {
                 let arg1 = runtime.args[0].unwrap_bls12_381_g1_element()?;
                 let arg2 = runtime.args[1].unwrap_bls12_381_g1_element()?;
@@ -1861,6 +1868,7 @@ impl<'a, B: BuiltinCostModel> Machine<'a, B> {
 
                 Ok(value)
             }
+            #[cfg(feature = "blst")]
             DefaultFunction::Bls12_381_G1_Compress => {
                 let arg1 = runtime.args[0].unwrap_bls12_381_g1_element()?;
 
@@ -1883,6 +1891,7 @@ impl<'a, B: BuiltinCostModel> Machine<'a, B> {
 
                 Ok(value)
             }
+            #[cfg(feature = "blst")]
             DefaultFunction::Bls12_381_G1_Uncompress => {
                 let arg1 = runtime.args[0].unwrap_byte_string()?;
 
@@ -1907,6 +1916,7 @@ impl<'a, B: BuiltinCostModel> Machine<'a, B> {
 
                 Ok(value)
             }
+            #[cfg(feature = "blst")]
             DefaultFunction::Bls12_381_G1_HashToGroup => {
                 let arg1 = runtime.args[0].unwrap_byte_string()?;
                 let arg2 = runtime.args[1].unwrap_byte_string()?;
@@ -1952,6 +1962,7 @@ impl<'a, B: BuiltinCostModel> Machine<'a, B> {
 
                 Ok(value)
             }
+            #[cfg(feature = "blst")]
             DefaultFunction::Bls12_381_G2_Add => {
                 let arg1 = runtime.args[0].unwrap_bls12_381_g2_element()?;
                 let arg2 = runtime.args[1].unwrap_bls12_381_g2_element()?;
@@ -1984,6 +1995,7 @@ impl<'a, B: BuiltinCostModel> Machine<'a, B> {
 
                 Ok(value)
             }
+            #[cfg(feature = "blst")]
             DefaultFunction::Bls12_381_G2_Neg => {
                 let arg1 = runtime.args[0].unwrap_bls12_381_g2_element()?;
 
@@ -2013,6 +2025,7 @@ impl<'a, B: BuiltinCostModel> Machine<'a, B> {
 
                 Ok(value)
             }
+            #[cfg(feature = "blst")]
             DefaultFunction::Bls12_381_G2_ScalarMul => {
                 let arg1 = runtime.args[0].unwrap_integer()?;
                 let arg2 = runtime.args[1].unwrap_bls12_381_g2_element()?;
@@ -2072,6 +2085,7 @@ impl<'a, B: BuiltinCostModel> Machine<'a, B> {
 
                 Ok(value)
             }
+            #[cfg(feature = "blst")]
             DefaultFunction::Bls12_381_G2_Equal => {
                 let arg1 = runtime.args[0].unwrap_bls12_381_g2_element()?;
                 let arg2 = runtime.args[1].unwrap_bls12_381_g2_element()?;
@@ -2098,6 +2112,7 @@ impl<'a, B: BuiltinCostModel> Machine<'a, B> {
 
                 Ok(value)
             }
+            #[cfg(feature = "blst")]
             DefaultFunction::Bls12_381_G2_Compress => {
                 let arg1 = runtime.args[0].unwrap_bls12_381_g2_element()?;
 
@@ -2120,6 +2135,7 @@ impl<'a, B: BuiltinCostModel> Machine<'a, B> {
 
                 Ok(value)
             }
+            #[cfg(feature = "blst")]
             DefaultFunction::Bls12_381_G2_Uncompress => {
                 let arg1 = runtime.args[0].unwrap_byte_string()?;
 
@@ -2144,6 +2160,7 @@ impl<'a, B: BuiltinCostModel> Machine<'a, B> {
 
                 Ok(value)
             }
+            #[cfg(feature = "blst")]
             DefaultFunction::Bls12_381_G2_HashToGroup => {
                 let arg1 = runtime.args[0].unwrap_byte_string()?;
                 let arg2 = runtime.args[1].unwrap_byte_string()?;
@@ -2189,6 +2206,7 @@ impl<'a, B: BuiltinCostModel> Machine<'a, B> {
 
                 Ok(value)
             }
+            #[cfg(feature = "blst")]
             DefaultFunction::Bls12_381_MillerLoop => {
                 let arg1 = runtime.args[0].unwrap_bls12_381_g1_element()?;
                 let arg2 = runtime.args[1].unwrap_bls12_381_g2_element()?;
@@ -2227,6 +2245,7 @@ impl<'a, B: BuiltinCostModel> Machine<'a, B> {
 
                 Ok(value)
             }
+            #[cfg(feature = "blst")]
             DefaultFunction::Bls12_381_MulMlResult => {
                 let arg1 = runtime.args[0].unwrap_bls12_381_ml_result()?;
                 let arg2 = runtime.args[1].unwrap_bls12_381_ml_result()?;
@@ -2259,6 +2278,7 @@ impl<'a, B: BuiltinCostModel> Machine<'a, B> {
 
                 Ok(value)
             }
+            #[cfg(feature = "blst")]
             DefaultFunction::Bls12_381_FinalVerify => {
                 let arg1 = runtime.args[0].unwrap_bls12_381_ml_result()?;
                 let arg2 = runtime.args[1].unwrap_bls12_381_ml_result()?;
@@ -2284,6 +2304,120 @@ impl<'a, B: BuiltinCostModel> Machine<'a, B> {
                 let value = Value::bool(self.arena, verified);
 
                 Ok(value)
+            }
+            #[cfg(not(feature = "secp256k1"))]
+            DefaultFunction::VerifyEcdsaSecp256k1Signature => {
+                Err(MachineError::NoCostForBuiltin(
+                    DefaultFunction::VerifyEcdsaSecp256k1Signature,
+                ))
+            }
+            #[cfg(not(feature = "secp256k1"))]
+            DefaultFunction::VerifySchnorrSecp256k1Signature => {
+                Err(MachineError::NoCostForBuiltin(
+                    DefaultFunction::VerifySchnorrSecp256k1Signature,
+                ))
+            }
+            #[cfg(not(feature = "blst"))]
+            DefaultFunction::Bls12_381_G1_Add => {
+                Err(MachineError::NoCostForBuiltin(
+                    DefaultFunction::Bls12_381_G1_Add,
+                ))
+            }
+            #[cfg(not(feature = "blst"))]
+            DefaultFunction::Bls12_381_G1_Neg => {
+                Err(MachineError::NoCostForBuiltin(
+                    DefaultFunction::Bls12_381_G1_Neg,
+                ))
+            }
+            #[cfg(not(feature = "blst"))]
+            DefaultFunction::Bls12_381_G1_ScalarMul => {
+                Err(MachineError::NoCostForBuiltin(
+                    DefaultFunction::Bls12_381_G1_ScalarMul,
+                ))
+            }
+            #[cfg(not(feature = "blst"))]
+            DefaultFunction::Bls12_381_G1_Equal => {
+                Err(MachineError::NoCostForBuiltin(
+                    DefaultFunction::Bls12_381_G1_Equal,
+                ))
+            }
+            #[cfg(not(feature = "blst"))]
+            DefaultFunction::Bls12_381_G1_Compress => {
+                Err(MachineError::NoCostForBuiltin(
+                    DefaultFunction::Bls12_381_G1_Compress,
+                ))
+            }
+            #[cfg(not(feature = "blst"))]
+            DefaultFunction::Bls12_381_G1_Uncompress => {
+                Err(MachineError::NoCostForBuiltin(
+                    DefaultFunction::Bls12_381_G1_Uncompress,
+                ))
+            }
+            #[cfg(not(feature = "blst"))]
+            DefaultFunction::Bls12_381_G1_HashToGroup => {
+                Err(MachineError::NoCostForBuiltin(
+                    DefaultFunction::Bls12_381_G1_HashToGroup,
+                ))
+            }
+            #[cfg(not(feature = "blst"))]
+            DefaultFunction::Bls12_381_G2_Add => {
+                Err(MachineError::NoCostForBuiltin(
+                    DefaultFunction::Bls12_381_G2_Add,
+                ))
+            }
+            #[cfg(not(feature = "blst"))]
+            DefaultFunction::Bls12_381_G2_Neg => {
+                Err(MachineError::NoCostForBuiltin(
+                    DefaultFunction::Bls12_381_G2_Neg,
+                ))
+            }
+            #[cfg(not(feature = "blst"))]
+            DefaultFunction::Bls12_381_G2_ScalarMul => {
+                Err(MachineError::NoCostForBuiltin(
+                    DefaultFunction::Bls12_381_G2_ScalarMul,
+                ))
+            }
+            #[cfg(not(feature = "blst"))]
+            DefaultFunction::Bls12_381_G2_Equal => {
+                Err(MachineError::NoCostForBuiltin(
+                    DefaultFunction::Bls12_381_G2_Equal,
+                ))
+            }
+            #[cfg(not(feature = "blst"))]
+            DefaultFunction::Bls12_381_G2_Compress => {
+                Err(MachineError::NoCostForBuiltin(
+                    DefaultFunction::Bls12_381_G2_Compress,
+                ))
+            }
+            #[cfg(not(feature = "blst"))]
+            DefaultFunction::Bls12_381_G2_Uncompress => {
+                Err(MachineError::NoCostForBuiltin(
+                    DefaultFunction::Bls12_381_G2_Uncompress,
+                ))
+            }
+            #[cfg(not(feature = "blst"))]
+            DefaultFunction::Bls12_381_G2_HashToGroup => {
+                Err(MachineError::NoCostForBuiltin(
+                    DefaultFunction::Bls12_381_G2_HashToGroup,
+                ))
+            }
+            #[cfg(not(feature = "blst"))]
+            DefaultFunction::Bls12_381_MillerLoop => {
+                Err(MachineError::NoCostForBuiltin(
+                    DefaultFunction::Bls12_381_MillerLoop,
+                ))
+            }
+            #[cfg(not(feature = "blst"))]
+            DefaultFunction::Bls12_381_MulMlResult => {
+                Err(MachineError::NoCostForBuiltin(
+                    DefaultFunction::Bls12_381_MulMlResult,
+                ))
+            }
+            #[cfg(not(feature = "blst"))]
+            DefaultFunction::Bls12_381_FinalVerify => {
+                Err(MachineError::NoCostForBuiltin(
+                    DefaultFunction::Bls12_381_FinalVerify,
+                ))
             }
             DefaultFunction::IntegerToByteString => {
                 let endianness = runtime.args[0].unwrap_bool()?;

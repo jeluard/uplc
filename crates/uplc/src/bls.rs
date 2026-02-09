@@ -1,8 +1,12 @@
+#[cfg(feature = "blst")]
 use bumpalo::collections::Vec as BumpVec;
+#[cfg(feature = "blst")]
 use once_cell::sync::Lazy;
 
+#[cfg(feature = "blst")]
 use crate::{arena::Arena, constant::Integer};
 
+#[cfg(feature = "blst")]
 pub static SCALAR_PERIOD: Lazy<Integer> = Lazy::new(|| {
     let bytes: [u8; 32] = [
         0x73, 0xed, 0xa7, 0x53, 0x29, 0x9d, 0x7d, 0x48, 0x33, 0x39, 0xd8, 0x08, 0x09, 0xa1, 0xd8,
@@ -13,16 +17,20 @@ pub static SCALAR_PERIOD: Lazy<Integer> = Lazy::new(|| {
     Integer::from_bytes_be(num_bigint::Sign::Plus, &bytes)
 });
 
+#[cfg(feature = "blst")]
 pub const BLST_P1_COMPRESSED_SIZE: usize = 48;
 
+#[cfg(feature = "blst")]
 pub const BLST_P2_COMPRESSED_SIZE: usize = 96;
 
 pub const INTEGER_TO_BYTE_STRING_MAXIMUM_OUTPUT_LENGTH: i64 = 8192;
 
+#[cfg(feature = "blst")]
 #[derive(Debug, thiserror::Error)]
 #[error("BLS error: {0:?}")]
 pub struct BlsError(blst::BLST_ERROR);
 
+#[cfg(feature = "blst")]
 pub trait Compressable {
     fn compress<'a>(&self, arena: &'a Arena) -> &'a [u8];
 
@@ -31,6 +39,7 @@ pub trait Compressable {
         Self: std::marker::Sized;
 }
 
+#[cfg(feature = "blst")]
 impl Compressable for blst::blst_p1 {
     fn compress<'a>(&self, arena: &'a Arena) -> &'a [u8] {
         let mut out = [0u8; BLST_P1_COMPRESSED_SIZE];
@@ -71,6 +80,7 @@ impl Compressable for blst::blst_p1 {
     }
 }
 
+#[cfg(feature = "blst")]
 impl Compressable for blst::blst_p2 {
     fn compress<'a>(&self, arena: &'a Arena) -> &'a [u8] {
         let mut out = [0; BLST_P2_COMPRESSED_SIZE];

@@ -80,8 +80,11 @@ pub fn constant_ex_mem(c: &Constant) -> i64 {
         Constant::ProtoArray(_, items) => proto_list_ex_mem(items),
         Constant::ProtoPair(_, _, l, r) => pair_ex_mem(l, r),
         Constant::Data(d) => data_ex_mem(d),
+        #[cfg(feature = "blst")]
         Constant::Bls12_381G1Element(_) => g1_element_ex_mem(),
+        #[cfg(feature = "blst")]
         Constant::Bls12_381G2Element(_) => g2_element_ex_mem(),
+        #[cfg(feature = "blst")]
         Constant::Bls12_381MlResult(_) => ml_result_ex_mem(),
     }
 }
@@ -114,16 +117,37 @@ pub fn data_map_ex_mem(items: &[(&PlutusData, &PlutusData)]) -> i64 {
         .fold(0, |acc, (k, v)| acc + data_ex_mem(k) + data_ex_mem(v))
 }
 
+#[cfg(feature = "blst")]
 pub fn g1_element_ex_mem() -> i64 {
     size_of::<blst::blst_p1>() as i64 / 8
 }
 
+#[cfg(not(feature = "blst"))]
+#[allow(dead_code)]
+pub fn g1_element_ex_mem() -> i64 {
+    0
+}
+
+#[cfg(feature = "blst")]
 pub fn g2_element_ex_mem() -> i64 {
     size_of::<blst::blst_p2>() as i64 / 8
 }
 
+#[cfg(not(feature = "blst"))]
+#[allow(dead_code)]
+pub fn g2_element_ex_mem() -> i64 {
+    0
+}
+
+#[cfg(feature = "blst")]
 pub fn ml_result_ex_mem() -> i64 {
     size_of::<blst::blst_fp12>() as i64 / 8
+}
+
+#[cfg(not(feature = "blst"))]
+#[allow(dead_code)]
+pub fn ml_result_ex_mem() -> i64 {
+    0
 }
 
 #[cfg(test)]

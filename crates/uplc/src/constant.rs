@@ -16,8 +16,11 @@ pub enum Constant<'a> {
         &'a Constant<'a>,
     ),
     Unit,
+    #[cfg(feature = "blst")]
     Bls12_381G1Element(&'a blst::blst_p1),
+    #[cfg(feature = "blst")]
     Bls12_381G2Element(&'a blst::blst_p2),
+    #[cfg(feature = "blst")]
     Bls12_381MlResult(&'a blst::blst_fp12),
 }
 
@@ -91,14 +94,17 @@ impl<'a> Constant<'a> {
         ))
     }
 
+    #[cfg(feature = "blst")]
     pub fn g1(arena: &'a Arena, g1: &'a blst::blst_p1) -> &'a Constant<'a> {
         arena.alloc(Constant::Bls12_381G1Element(g1))
     }
 
+    #[cfg(feature = "blst")]
     pub fn g2(arena: &'a Arena, g2: &'a blst::blst_p2) -> &'a Constant<'a> {
         arena.alloc(Constant::Bls12_381G2Element(g2))
     }
 
+    #[cfg(feature = "blst")]
     pub fn ml_result(arena: &'a Arena, ml_res: &'a blst::blst_fp12) -> &'a Constant<'a> {
         arena.alloc(Constant::Bls12_381MlResult(ml_res))
     }
@@ -124,8 +130,11 @@ impl<'a> Constant<'a> {
             Constant::ProtoArray(t, _) => Type::array(arena, t),
             Constant::ProtoPair(t1, t2, _, _) => Type::pair(arena, t1, t2),
             Constant::Unit => Type::unit(arena),
+            #[cfg(feature = "blst")]
             Constant::Bls12_381G1Element(_) => Type::g1(arena),
+            #[cfg(feature = "blst")]
             Constant::Bls12_381G2Element(_) => Type::g2(arena),
+            #[cfg(feature = "blst")]
             Constant::Bls12_381MlResult(_) => Type::ml_result(arena),
         }
     }

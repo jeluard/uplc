@@ -5,11 +5,12 @@ use num::Num;
 
 use crate::{
     arena::Arena,
-    bls::Compressable,
     constant::{self, Constant, Integer},
     data::PlutusData,
     typ::Type,
 };
+#[cfg(feature = "blst")]
+use crate::bls::Compressable;
 
 use super::{
     data, typ,
@@ -97,6 +98,7 @@ fn check_type<'a>(
             Constant::proto_pair(arena, fst_ty, snd_ty, fst, snd)
         }
 
+        #[cfg(feature = "blst")]
         (TempConstant::BlsElement(element), Type::Bls12_381G1Element) => {
             let Ok(element) = blst::blst_p1::uncompress(arena, &element) else {
                 return (Constant::unit(arena), false);
@@ -105,6 +107,7 @@ fn check_type<'a>(
             Constant::g1(arena, element)
         }
 
+        #[cfg(feature = "blst")]
         (TempConstant::BlsElement(element), Type::Bls12_381G2Element) => {
             let Ok(element) = blst::blst_p2::uncompress(arena, &element) else {
                 return (Constant::unit(arena), false);

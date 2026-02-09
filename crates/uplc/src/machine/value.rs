@@ -221,6 +221,7 @@ where
         Ok(list)
     }
 
+    #[cfg(feature = "blst")]
     pub fn unwrap_bls12_381_g1_element(&'a self) -> Result<&'a blst::blst_p1, MachineError<'a, V>> {
         let inner = self.unwrap_constant()?;
 
@@ -231,6 +232,7 @@ where
         Ok(g1)
     }
 
+    #[cfg(feature = "blst")]
     pub fn unwrap_bls12_381_g2_element(&'a self) -> Result<&'a blst::blst_p2, MachineError<'a, V>> {
         let inner = self.unwrap_constant()?;
 
@@ -241,6 +243,7 @@ where
         Ok(g2)
     }
 
+    #[cfg(feature = "blst")]
     pub fn unwrap_bls12_381_ml_result(
         &'a self,
     ) -> Result<&'a blst::blst_fp12, MachineError<'a, V>> {

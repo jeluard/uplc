@@ -158,6 +158,7 @@ fn encode_constant<'a>(e: &mut Encoder, constant: &'a Constant<'a>) -> Result<()
             encode_constant_value(e, fst)?;
             encode_constant_value(e, snd)?;
         }
+        #[cfg(feature = "blst")]
         Constant::Bls12_381G1Element(_)
         | Constant::Bls12_381G2Element(_)
         | Constant::Bls12_381MlResult(_) => return Err(FlatEncodeError::BlsElementNotSupported),
@@ -239,6 +240,7 @@ fn encode_constant_value<'a>(e: &mut Encoder, x: &'a &Constant<'a>) -> Result<()
         Constant::Data(_data) => {
             todo!();
         }
+        #[cfg(feature = "blst")]
         Constant::Bls12_381G1Element(_)
         | Constant::Bls12_381G2Element(_)
         | Constant::Bls12_381MlResult(_) => return Err(FlatEncodeError::BlsElementNotSupported),
