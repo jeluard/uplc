@@ -1,5 +1,5 @@
 [package]
-name = "uplc_macros"
+name = "amaru-uplc_macros"
 version.workspace = true
 edition.workspace = true
 description.workspace = true
@@ -11,6 +11,7 @@ documentation.workspace = true
 publish = true 
 
 [lib]
+name = "uplc_macros"
 proc-macro = true
 
 [dependencies]

@@ -1,5 +1,5 @@
 [package]
-name = "uplc-turbo"
+name = "amaru-uplc-turbo"
 version.workspace = true
 edition.workspace = true
 description.workspace = true
@@ -9,6 +9,9 @@ repository.workspace = true
 homepage.workspace = true
 documentation.workspace = true
 publish = true
+
+[lib]
+name = "uplc_turbo"
 
 [dependencies]
 append-only-vec = "0.1.8"
@@ -33,7 +36,7 @@ insta = "1.40.0"
 itertools = "0.13.0"
 ouroboros = "0.18.4"
 pretty_assertions = "1.4.0"
-uplc_macros = { version = "0.1.0", path = "../uplc_macros" }
+amaru-uplc_macros = { version = "0.1.0", path = "../uplc_macros" }
 rayon = "1.11.0"
 
 [features]

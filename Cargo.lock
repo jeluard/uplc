@@ -39,6 +39,53 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5c6cb57a04249c6480766f7f7cef5467412af1490f8d1e243141daddada3264f"
 
 [[package]]
+name = "amaru-pluton"
+version = "0.1.0"
+dependencies = [
+ "amaru-uplc-turbo",
+ "clap",
+ "miette",
+]
+
+[[package]]
+name = "amaru-uplc-turbo"
+version = "0.1.0"
+dependencies = [
+ "amaru-uplc_macros",
+ "append-only-vec",
+ "blst",
+ "bumpalo",
+ "chumsky",
+ "criterion",
+ "cryptoxide",
+ "divan",
+ "hamming",
+ "hex",
+ "insta",
+ "itertools 0.13.0",
+ "minicbor",
+ "num",
+ "num-bigint",
+ "num-integer",
+ "once_cell",
+ "ouroboros",
+ "pretty_assertions",
+ "rayon",
+ "secp256k1",
+ "thiserror",
+]
+
+[[package]]
+name = "amaru-uplc_macros"
+version = "0.1.0"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+ "walkdir",
+]
+
+[[package]]
 name = "anes"
 version = "0.1.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -843,15 +890,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "pluton"
-version = "0.1.0"
-dependencies = [
- "clap",
- "miette",
- "uplc-turbo",
-]
-
-[[package]]
 name = "ppv-lite86"
 version = "0.2.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1256,44 +1294,6 @@ name = "unicode-width"
 version = "0.1.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7dd6e30e90baa6f72411720665d41d89b9a3d039dc45b8faea1ddd07f617f6af"
-
-[[package]]
-name = "uplc-turbo"
-version = "0.1.0"
-dependencies = [
- "append-only-vec",
- "blst",
- "bumpalo",
- "chumsky",
- "criterion",
- "cryptoxide",
- "divan",
- "hamming",
- "hex",
- "insta",
- "itertools 0.13.0",
- "minicbor",
- "num",
- "num-bigint",
- "num-integer",
- "once_cell",
- "ouroboros",
- "pretty_assertions",
- "rayon",
- "secp256k1",
- "thiserror",
- "uplc_macros",
-]
-
-[[package]]
-name = "uplc_macros"
-version = "0.1.0"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn",
- "walkdir",
-]
 
 [[package]]
 name = "utf8parse"

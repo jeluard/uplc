@@ -1,5 +1,5 @@
 [package]
-name = "pluton"
+name = "amaru-pluton"
 version = { workspace = true }
 edition = { workspace = true }
 
@@ -8,4 +8,4 @@ publish = false
 [dependencies]
 clap = { version = "4.5.18", features = ["derive"] }
 miette = { version = "7.2.0", features = ["fancy"] }
-uplc-turbo = { version = "0.1.0", path = "../uplc" }
+amaru-uplc-turbo = { version = "0.1.0", path = "../uplc" }
