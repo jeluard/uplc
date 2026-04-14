@@ -9,5 +9,5 @@ edition = "2021"
 license = "Apache-2.0"
 authors = ["Lucas Rosa <x@rvcas.dev>"]
 repository = "https://github.com/pragma-org/uplc"
-homepage = "https://github.com/pragma-uplc/uplc"
+homepage = "https://github.com/pragma-org/uplc"
 documentation = "https://docs.rs/uplc-turbo"
